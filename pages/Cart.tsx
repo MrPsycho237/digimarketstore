@@ -19,14 +19,17 @@ const Cart: React.FC = () => {
       navigate('/login');
       return;
     }
-    
+
     setIsProcessing(true);
-    // Simulate API call
-    setTimeout(() => {
-      checkout();
+    try {
+      await checkout();
       setIsProcessing(false);
-      navigate('/dashboard'); // Redirect to dashboard after purchase
-    }, 2000);
+      alert('Order completed successfully!');
+      navigate('/shop');
+    } catch (error) {
+      setIsProcessing(false);
+      alert('Checkout failed. Please try again.');
+    }
   };
 
   if (cart.length === 0) {

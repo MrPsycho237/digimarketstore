@@ -82,27 +82,30 @@ const AdminDashboard: React.FC = () => {
     setFormData({ ...formData, features: newFeatures });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!formData.title || !formData.price) return;
 
-    if (isEditing && editId) {
-      updateProduct(editId, formData);
-    } else {
-      const product: Product = {
-        id: Math.random().toString(36).substr(2, 9),
-        title: formData.title!,
-        description: formData.description || '',
-        price: Number(formData.price),
-        category: formData.category || 'Assets',
-        image: formData.image || 'https://picsum.photos/800/600',
-        rating: 0, // New products start with 0
-        reviews: 0,
-        features: formData.features?.filter(f => f.trim() !== '') || []
-      };
-      addProduct(product);
+    try {
+      if (isEditing && editId) {
+        await updateProduct(editId, formData);
+      } else {
+        await addProduct({
+          title: formData.title!,
+          description: formData.description || '',
+          price: Number(formData.price),
+          category: formData.category || 'Assets',
+          image: formData.image || 'https://picsum.photos/800/600',
+          rating: 0,
+          reviews: 0,
+          features: formData.features?.filter(f => f.trim() !== '') || []
+        });
+      }
+      resetForm();
+    } catch (error) {
+      console.error('Error saving product:', error);
+      alert('Failed to save product. Please try again.');
     }
-    resetForm();
   };
 
   return (

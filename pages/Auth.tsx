@@ -7,18 +7,26 @@ const Auth: React.FC = () => {
   const [isLogin, setIsLogin] = useState(true);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const { login } = useStore();
+  const { login, signup } = useStore();
   const navigate = useNavigate();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Simulate Admin Login
-    if (email.includes('admin')) {
-      login(email, 'admin');
-      navigate('/admin');
-    } else {
-      login(email, 'customer');
-      navigate('/');
+
+    try {
+      if (isLogin) {
+        await login(email, password);
+        const role = email.includes('admin') ? 'admin' : 'customer';
+        navigate(role === 'admin' ? '/admin' : '/');
+      } else {
+        const name = email.split('@')[0];
+        const role = email.includes('admin') ? 'admin' : 'customer';
+        await signup(email, password, name, role);
+        alert('Account created successfully! You can now sign in.');
+        setIsLogin(true);
+      }
+    } catch (error: any) {
+      alert(error.message || 'Authentication failed');
     }
   };
 
