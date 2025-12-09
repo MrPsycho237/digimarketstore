@@ -7,6 +7,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 const Navbar: React.FC = () => {
   const { cart, user, logout } = useStore();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [currency, setCurrency] = useState('USD');
   const navigate = useNavigate();
 
   const totalItems = cart.reduce((acc, item) => acc + item.quantity, 0);
@@ -47,6 +48,16 @@ const Navbar: React.FC = () => {
 
           {/* Actions */}
           <div className="hidden md:flex items-center space-x-6">
+            <select
+              value={currency}
+              onChange={(e) => setCurrency(e.target.value)}
+              className="px-3 py-2 border border-gray-200 rounded-lg text-sm font-medium text-gray-700 bg-white hover:border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all"
+            >
+              <option value="USD">USD</option>
+              <option value="NGN">NGN</option>
+              <option value="XAF">XAF</option>
+            </select>
+
             <Link to="/cart" className="relative text-gray-600 hover:text-primary transition-colors">
               <ShoppingCart size={22} />
               {totalItems > 0 && (
@@ -106,6 +117,16 @@ const Navbar: React.FC = () => {
             className="md:hidden bg-white border-b border-gray-100 overflow-hidden"
           >
             <div className="px-4 py-4 space-y-4">
+              <select
+                value={currency}
+                onChange={(e) => setCurrency(e.target.value)}
+                className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm font-medium text-gray-700 bg-white focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all"
+              >
+                <option value="USD">USD</option>
+                <option value="NGN">NGN</option>
+                <option value="XAF">XAF</option>
+              </select>
+
               <Link to="/" onClick={toggleMenu} className="block text-gray-600 font-medium">Home</Link>
               <Link to="/shop" onClick={toggleMenu} className="block text-gray-600 font-medium">Shop</Link>
               {user?.role === 'admin' && (
