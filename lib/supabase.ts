@@ -17,6 +17,7 @@ export interface Database {
           id: string;
           email: string;
           name: string;
+          phone_number: string | null;
           role: 'admin' | 'customer';
           created_at: string;
           updated_at: string;
@@ -25,6 +26,7 @@ export interface Database {
           id: string;
           email: string;
           name: string;
+          phone_number?: string | null;
           role?: 'admin' | 'customer';
           created_at?: string;
           updated_at?: string;
@@ -33,6 +35,7 @@ export interface Database {
           id?: string;
           email?: string;
           name?: string;
+          phone_number?: string | null;
           role?: 'admin' | 'customer';
           created_at?: string;
           updated_at?: string;
@@ -181,6 +184,38 @@ export interface Database {
           product_id?: string;
           order_id?: string;
           purchased_at?: string;
+        };
+      };
+      flutterwave_payments: {
+        Row: {
+          id: string;
+          profile_id: string;
+          amount: number;
+          currency: string;
+          tx_ref: string;
+          status: 'pending' | 'completed' | 'failed';
+          created_at: string;
+          updated_at: string;
+        };
+        Insert: {
+          id?: string;
+          profile_id: string;
+          amount: number;
+          currency?: string;
+          tx_ref: string;
+          status?: 'pending' | 'completed' | 'failed';
+          created_at?: string;
+          updated_at?: string;
+        };
+        Update: {
+          id?: string;
+          profile_id?: string;
+          amount?: number;
+          currency?: string;
+          tx_ref?: string;
+          status?: 'pending' | 'completed' | 'failed';
+          created_at?: string;
+          updated_at?: string;
         };
       };
     };
